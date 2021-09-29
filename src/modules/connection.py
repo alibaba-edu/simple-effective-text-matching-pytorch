@@ -26,6 +26,9 @@ register = partial(register, registry=registry)
 
 @register('none')
 class NullConnection(nn.Module):
+    def __init__(self, _):
+        super().__init__()
+
     def forward(self, x, _, __):
         return x
 
@@ -44,6 +47,9 @@ class Residual(nn.Module):
 
 @register('aug')
 class AugmentedResidual(nn.Module):
+    def __init__(self, _):
+        super().__init__()
+
     def forward(self, x, res, i):
         if i == 1:
             return torch.cat([x, res], dim=-1)  # res is embedding

@@ -30,14 +30,16 @@ class Network(Module):
         super().__init__()
         self.dropout = args.dropout
         self.embedding = Embedding(args)
+        input_emb_size = args.embedding_dim if args.connection == 'aug' else 0
         self.blocks = ModuleList([ModuleDict({
-            'encoder': Encoder(args, args.embedding_dim if i == 0 else args.embedding_dim + args.hidden_size),
+            'encoder': Encoder(args, args.embedding_dim if i == 0 else input_emb_size + args.hidden_size),
             'alignment': alignment[args.alignment](
-                args, args.embedding_dim + args.hidden_size if i == 0 else args.embedding_dim + args.hidden_size * 2),
+                args, args.embedding_dim + args.hidden_size if i == 0 else input_emb_size + args.hidden_size * 2),
             'fusion': fusion[args.fusion](
-                args, args.embedding_dim + args.hidden_size if i == 0 else args.embedding_dim + args.hidden_size * 2),
+                args, args.embedding_dim + args.hidden_size if i == 0 else input_emb_size + args.hidden_size * 2),
         }) for i in range(args.blocks)])
-        self.connection = connection[args.connection]()
+
+        self.connection = connection[args.connection](args)
         self.pooling = Pooling()
         self.prediction = prediction[args.prediction](args)
 
