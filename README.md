@@ -42,11 +42,7 @@ Refer to the paper for more details of the components and experiment results.
 
 - install python >= 3.6 and pip
 - `pip install -r requirements.txt`
-- install [PyTorch](https://pytorch.org) (1.0 <= version < 1.2). PyTorch 1.2 has breaking changes on masking and will be supported in the future. Some useful links for pip wheels:
-    - [linux/pytorch 1.0.1/CUDA 8/python 3.6](https://download.pytorch.org/whl/cu80/torch-1.0.1.post2-cp36-cp36m-linux_x86_64.whl)
-    - [linux/pytorch 1.0.1/CUDA 8/python 3.7](https://download.pytorch.org/whl/cu80/torch-1.0.1.post2-cp37-cp37m-linux_x86_64.whl)
-    - [linux/pytorch 1.0.1/CUDA 9/python 3.6](https://download.pytorch.org/whl/cu90/torch-1.0.1.post2-cp36-cp36m-linux_x86_64.whl)
-    - [linux/pytorch 1.0.1/CUDA 9/python 3.7](https://download.pytorch.org/whl/cu90/torch-1.0.1.post2-cp37-cp37m-linux_x86_64.whl)
+- install [PyTorch](https://pytorch.org)
 - Download [GloVe word vectors](https://nlp.stanford.edu/projects/glove/) (glove.840B.300d) to `resources/`
 
 Data used in the paper are prepared as follows:

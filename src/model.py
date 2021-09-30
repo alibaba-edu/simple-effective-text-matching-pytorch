@@ -72,6 +72,8 @@ class Model:
         loss.backward()
         grad_norm = torch.nn.utils.clip_grad_norm_(self.params, self.args.grad_clipping)
         assert grad_norm >= 0, 'encounter nan in gradients.'
+        if isinstance(grad_norm, torch.Tensor):
+            grad_norm = grad_norm.item()
         self.opt.step()
         self._update_schedule()
         self.updates += 1
