@@ -97,7 +97,8 @@ class Interface:
         return list(map(self.make_batch, batches))
 
     def make_batch(self, batch, with_target=True):
-        batch = {key: [sample[key] for sample in batch] for key in batch[0].keys()}
+        batch = {key: [sample[key] for sample
+         in batch] for key in batch[0].keys()}
         if 'target' in batch and not with_target:
             del batch['target']
         batch = {key: self.padding(value, min_len=self.args.min_len) if key.startswith('text') else value

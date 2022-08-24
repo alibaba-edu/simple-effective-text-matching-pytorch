@@ -85,6 +85,16 @@ class Model:
             'summary': summary,
         }
         return stats
+    
+    def test(self,data):
+        self.network.eval()
+        for batch in tqdm(data[:self.args.eval_subset], desc='testing', leave=False):
+            inputs, target = self.process_data(batch)
+            with torch.no_grad():
+                output = self.network(inputs)
+                pred = torch.argmax(output, dim=1)
+                prob = torch.nn.functional.softmax(output, dim=1)
+                return pred, prob
 
     def evaluate(self, data):
         self.network.eval()
@@ -96,11 +106,14 @@ class Model:
             inputs, target = self.process_data(batch)
             with torch.no_grad():
                 output = self.network(inputs)
-                loss = self.get_loss(output, target)
                 pred = torch.argmax(output, dim=1)
                 prob = torch.nn.functional.softmax(output, dim=1)
-                losses.append(loss.item())
-                targets.extend(target.tolist())
+                try:
+                    loss = self.get_loss(output, target)
+                    losses.append(loss.item())
+                    targets.extend(target.tolist())
+                except:
+                    pass
                 probabilities.extend(prob.tolist())
                 predictions.extend(pred.tolist())
         outputs = {
@@ -128,6 +141,7 @@ class Model:
             output = self.network(inputs)
             output = torch.nn.functional.softmax(output, dim=1)
         return output.tolist()
+
 
     def process_data(self, batch):
         text1 = torch.LongTensor(batch['text1']).to(self.device)

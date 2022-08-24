@@ -21,6 +21,7 @@ import torch.nn.functional as f
 from functools import partial
 from src.utils.registry import register
 from . import Linear, Module
+import numpy as np
 
 registry = {}
 register = partial(register, registry=registry)
@@ -38,10 +39,10 @@ class Alignment(Module):
     def forward(self, a, b, mask_a, mask_b):
         attn = self._attention(a, b)
         mask = torch.matmul(mask_a.float(), mask_b.transpose(1, 2).float())
-        if tuple(torch.__version__.split('.')) < ('1', '2'):
-            mask = mask.byte()
-        else:
-            mask = mask.bool()
+        # if tuple(torch.__version__.split('.')) < ('1', '2'):
+        #     mask = mask.byte()
+        # else:
+        mask = mask.bool()
         attn.masked_fill_(~mask, -1e7)
         attn_a = f.softmax(attn, dim=1)
         attn_b = f.softmax(attn, dim=2)

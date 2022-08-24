@@ -29,6 +29,7 @@ class Evaluator:
     def evaluate(self):
         data = load_data(*os.path.split(self.data_file))
         model, checkpoint = Model.load(self.model_path)
+        
         args = checkpoint['args']
         interface = Interface(args)
         batches = interface.pre_process(data, training=False)

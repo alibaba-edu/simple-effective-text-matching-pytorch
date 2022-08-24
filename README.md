@@ -2,41 +2,7 @@
 
 This is a pytorch implementation of the ACL 2019 paper "Simple and Effective Text Matching with Richer Alignment Features". The original Tensorflow implementation: https://github.com/alibaba-edu/simple-effective-text-matching.
 
-## Quick Links
 
-- [About](#simple-and-effective-text-matching)
-- [Setup](#setup)
-- [Usage](#usage)
-
-## Simple and Effective Text Matching
-
-RE2 is a fast and strong neural architecture for general purpose text matching applications. 
-In a text matching task, a model takes two text sequences as input and predicts their relationship.
-This method aims to explore what is sufficient for strong performance in these tasks. 
-It simplifies many slow components which are previously considered as core building blocks in text matching,
-while keeping three key features directly available for inter-sequence alignment: 
-original point-wise features, previous aligned features, and contextual features.
-
-RE2 achieves performance on par with the state of the art on four benchmark datasets: SNLI, SciTail, Quora and WikiQA,
-across tasks of natural language inference, paraphrase identification and answer selection 
-with no or few task-specific adaptations. It has at least 6 times faster inference speed compared to similarly performed models.
-
-<p align="center"><img width="50%" src="figure.png" /></p>
-
-The following table lists major experiment results. 
-The paper reports the average and standard deviation of 10 runs. 
-Inference time (in seconds) is measured by processing a batch of 8 pairs of length 20 on Intel i7 CPUs.
-The computation time of POS features used by CSRAN and DIIN is not included.
-
-|Model|SNLI|SciTail|Quora|WikiQA|Inference Time|
-|---|---|---|---|---|---|
-|[BiMPM](https://github.com/zhiguowang/BiMPM)|86.9|-|88.2|0.731|0.05|
-|[ESIM](https://github.com/lukecq1231/nli)|88.0|70.6|-|-|-|
-|[DIIN](https://github.com/YichenGong/Densely-Interactive-Inference-Network)|88.0|-|89.1|-|1.79|
-|[CSRAN](https://github.com/vanzytay/EMNLP2018_NLI)|88.7|86.7|89.2|-|0.28|
-|RE2|88.9±0.1|86.0±0.6|89.2±0.2|0.7618 ±0.0040|0.03~0.05|
-
-Refer to the paper for more details of the components and experiment results.
 
 ## Setup
 
@@ -89,6 +55,14 @@ Example configuration files are provided in `configs/`:
 - `configs/robustness.json5`: robustness checks
 - `configs/ablation.json5`: ablation study
 
+## Run api (Test models)
+
+```bash
+unicorn api:api --reload
+```
+
+
+
 The instructions to write your own configuration files:
 
 ```json5
@@ -131,18 +105,3 @@ python evaluate.py models/snli/benchmark/best.pt data/snli/test.txt
 
 > Note that multi-GPU training is not yet supported in the pytorch implementation. A single 16G GPU is sufficient for training when blocks < 5 with hidden size 200 and batch size 512. All the results reported in the paper except the robustness checks can be reproduced with a single 16G GPU.
 
-## Citation
-
-Please cite the ACL paper if you use RE2 in your work:
-
-```
-@inproceedings{yang2019simple,
-  title={Simple and Effective Text Matching with Richer Alignment Features},
-  author={Yang, Runqi and Zhang, Jianhai and Gao, Xing and Ji, Feng and Chen, Haiqing},
-  booktitle={Association for Computational Linguistics (ACL)},
-  year={2019}
-}
-```
-
-## License
-This project is under Apache License 2.0.
